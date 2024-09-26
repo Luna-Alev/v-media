@@ -5,6 +5,20 @@ import Login from "./components/Login";
 import "./App.css";
 
 const App = () => {
+  const [isAuthenticated, setIsAuthenticated] = React.useState(false);
+
+  React.useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      setIsAuthenticated(true);
+    }
+  }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    setIsAuthenticated(false);
+  };
+
   return (
     <Router>
       <nav>
@@ -12,15 +26,24 @@ const App = () => {
           <li>
             <Link to="/">Home</Link>
           </li>
+
+          {isAuthenticated ? (
+            <li>
+              <button
+                onClick={handleLogout}>
+                Logout
+              </button>
+            </li>
+          ) : (
+          <div>
           <li>
             <Link to="/login">Login</Link>
           </li>
           <li>
             <Link to="/register">Register</Link>
           </li>
-          <li>
-            <Link to="/account">User Account</Link>
-          </li>
+          </div>
+          )}
         </ul>
       </nav>
 

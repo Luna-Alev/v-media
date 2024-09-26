@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './Login.css';
 
@@ -9,6 +10,7 @@ const Login = () => {
   });
 
   const [error, setError] = useState('');
+  const navigate = useNavigate();
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -31,7 +33,9 @@ const Login = () => {
             setError(response.data.error);
             return;
         }
-    
+        
+        navigate('/');
+        window.location.reload();
         localStorage.setItem('token', response.data.token);
         setError('');
     } catch (error) {

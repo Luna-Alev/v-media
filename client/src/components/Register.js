@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './Register.css';
 import axios from 'axios';
 
@@ -12,7 +13,7 @@ const Register = () => {
     email: '',
     birthDate: ''
   });
-
+  const navigate = useNavigate();
   const [error, setError] = useState('');
   
   const handleInputChange = (e) => {
@@ -29,7 +30,7 @@ const Register = () => {
     }
 
     try {
-        await axios.post('http://localhost:3001/user', {
+        await axios.post('http://localhost:3001/register', {
             firstName: formData.firstName,
             lastName: formData.lastName,
             username: formData.username,
@@ -38,6 +39,8 @@ const Register = () => {
             birthDate: formData.birthDate
         });
         setError('');
+        navigate('/login');
+        window.location.reload();
     } catch (error) {
         setError('Error registering user');
         console.error(error);

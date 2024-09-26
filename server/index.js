@@ -84,6 +84,18 @@ app.post('/new_post', async (req, res) => {
     });
 });
 
+app.get('/posts', (req, res) => {
+    var sql = 'SELECT article.title, article.body, article.date, user.username FROM article INNER JOIN user ON article.author_id = user.ID LIMIT 10';
+    db.query(sql, (err, results) => {
+        if (err) {
+            console.log('Error fetching posts');
+            return;
+        }
+        console.log(results);
+        res.json(results);
+    });
+});
+
 app.get('/users', (req, res) => {
     var sql = 'SELECT * FROM user';
     db.query(sql, (err, results) => {

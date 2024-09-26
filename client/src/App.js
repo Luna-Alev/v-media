@@ -5,6 +5,7 @@ import UserContext from "./UserContext";
 import Register from "./components/Register";
 import Login from "./components/Login";
 import PostForm from "./components/PostForm";
+import PostFeed from "./components/PostFeed";
 import "./App.css";
 
 const App = () => {
@@ -60,6 +61,7 @@ const App = () => {
       </nav>
 
       <Routes>
+        <Route path="/" element={<PostFeed />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/createpost" element={<PostForm />} />

@@ -60,15 +60,27 @@ app.post('/login', (req, res) => {
         bcrypt.compare(req.body.password, results[0].password, (err, result) => {
             if (err) throw err;
             if (result) {
-                const token = jwt.sign({ username: req.body.username, id: results.ID }, JWT_SECRET, {
+                const token = jwt.sign({ username: req.body.username, id: results[0].ID }, JWT_SECRET, {
                     expiresIn: '1h'
                 });
-        
                 res.json({ token });
             } else {
                 res.json({ error: 'Invalid username or password' });
             }
         });
+    });
+});
+
+app.post('/new_post', async (req, res) => {
+    console.log(req.body);
+    var sql = 'INSERT INTO article (title, body, theme, author_id, date) VALUES (?, ?, ?, ?, ?)';
+    db.query(sql, [req.body.title, req.body.body, req.body.theme, req.body.author, new Date()], (err, result) => {
+        if (err) {
+            console.log('Error creating post');
+            return;
+        }
+        console.log('Post created');
+        res.send('Post created').status(200);
     });
 });
 

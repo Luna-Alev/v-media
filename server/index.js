@@ -28,7 +28,15 @@ app.get('/', (req, res) => {
 
 app.post('/user', (req, res) => {
     console.log(req.body);
-    res.send('User registered');
+    var sql = 'INSERT INTO user (first_name, last_name, username, password, join_date, email, birth_date) VALUES (?, ?, ?, ?, ?, ?, ?)';
+    db.query(sql, [req.body.firstName, req.body.lastName, req.body.username, req.body.password, new Date(), req.body.email, req.body.birthDate], (err, result) => {
+        if (err) {
+            console.log('Error registering user');
+            return;
+        }
+        console.log('User registered');
+        res.send('User registered').status(200);
+    });
 });
 
 app.get('/users', (req, res) => {

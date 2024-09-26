@@ -1,0 +1,32 @@
+.App {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.canvas {
+  display: grid;
+  grid-template-columns: repeat(32, 20px); /* 16 columns with 20px width per pixel */
+  grid-template-rows: repeat(32, 20px);   /* 16 rows with 20px height per pixel */
+  margin-top: 20px;
+}
+
+.pixel {
+  width: 20px;
+  height: 20px;
+  border: 1px solid #ddd;
+  cursor: pointer;
+}
+
+.palette {
+  margin-bottom: 20px;
+}
+
+.palette-color {
+  width: 30px;
+  height: 30px;
+  margin: 5px;
+  border: none;
+  cursor: pointer;
+}

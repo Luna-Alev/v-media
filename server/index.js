@@ -1,4 +1,7 @@
 const express = require('express');
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcryptjs');
+const bodyParser = require('body-parser');
 const mysql = require('mysql2');
 const cors = require('cors');
 const app = express();
@@ -7,11 +10,13 @@ require('dotenv').config();
 app.use(cors());
 app.use(express.json());
 
+const JWT_SECRET = process.env.JWT_SECRET;
+
 const db = mysql.createConnection({
-    host: process.env.DB_host,
-    user: process.env.DB_user,
-    password: process.env.DB_password,
-    database: process.env.DB_database
+    host: process.env.DB_HOST,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_DATABASE
 });
 
 db.connect((err) => {
@@ -36,6 +41,25 @@ app.post('/user', (req, res) => {
         }
         console.log('User registered');
         res.send('User registered').status(200);
+    });
+});
+
+app.post('/login', (req, res) => {
+    var sql = 'SELECT * FROM user WHERE username = ? AND password = ?';
+    db.query(sql, [req.body.username, req.body.password], (err, results) => {
+        if (err) {
+            console.log('Error logging in');
+            return;
+        }
+        if (results.length === 0) {
+            res.json({ error: 'Invalid username or password' });
+            return;
+        }
+        const token = jwt.sign({ username: req.body.username, id: results.ID }, JWT_SECRET, {
+            expiresIn: '1h'
+        });
+
+        res.json({ token });
     });
 });
 

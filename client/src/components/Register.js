@@ -29,7 +29,7 @@ const Register = () => {
     }
 
     try {
-        const response = await axios.post('http://localhost:3001/user', {
+        await axios.post('http://localhost:3001/user', {
             firstName: formData.firstName,
             lastName: formData.lastName,
             username: formData.username,

@@ -85,14 +85,44 @@ app.post('/new_post', async (req, res) => {
 });
 
 app.get('/posts', (req, res) => {
-    var sql = 'SELECT article.title, article.body, article.date, user.username FROM article INNER JOIN user ON article.author_id = user.ID LIMIT 10';
-    db.query(sql, (err, results) => {
+    var sql = 'SELECT article.ID, article.title, article.body, article.date, user.username, COUNT(likes.post_id) AS likes FROM article INNER JOIN user ON article.author_id = user.ID LEFT JOIN likes ON article.ID = likes.post_id GROUP BY article.ID LIMIT 10';
+    db.query(sql, async (err, results) => {
         if (err) {
             console.log('Error fetching posts');
             return;
         }
-        console.log(results);
         res.json(results);
+    });
+});
+
+app.post('/like', (req, res) => {
+    var sql = 'SELECT * FROM likes WHERE post_id = ? AND user_id = ?';
+    db.query(sql, [req.body.postID, req.body.userID], (err, results) => {
+        if (err) {
+            console.log('Error checking if post is liked');
+            return;
+        }
+        if (results.length > 0) {
+            var sql = 'DELETE FROM likes WHERE post_id = ? AND user_id = ?';
+            db.query(sql, [req.body.postID, req.body.userID], (err, result) => {
+                if (err) {
+                    console.log('Error unliking post');
+                    return;
+                }
+                res.send('Post unliked').status(200);
+            });
+        }
+        else {
+            var sql = 'INSERT INTO likes (post_id, user_id) VALUES (?, ?)';
+            db.query(sql, [req.body.postID, req.body.userID], (err, result) => {
+                if (err) {
+                    console.log('Error liking post');
+                    return;
+                }
+                res.send('Post liked').status(200);
+            });
+        }
+
     });
 });
 

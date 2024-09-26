@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import Post from "./Post";
 
 const PostFeed = () => {
     const [posts, setPosts] = useState([]);
@@ -19,12 +20,7 @@ const PostFeed = () => {
         <div>
             <h2>Posts</h2>
             {posts.map((post) => (
-                <div key={post.id}>
-                    <h3>{post.title}</h3>
-                    <p>{post.body}</p>
-                    <p>{post.date}</p>
-                    <p>{post.username}</p>
-                </div>
+                <Post post={post} />
             ))}
         </div>
     );

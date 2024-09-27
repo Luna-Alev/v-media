@@ -4,6 +4,7 @@ import { jwtDecode } from "jwt-decode";
 import UserContext from "./UserContext";
 import Register from "./components/Register";
 import Login from "./components/Login";
+import Profile from "./components/Profile";
 import PostForm from "./components/PostForm";
 import PostFeed from "./components/PostFeed";
 import "./App.css";
@@ -11,6 +12,7 @@ import "./App.css";
 const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [userID, setUserID] = useState(null);
+  const [username, setUsername] = useState(null);
 
   useEffect(() => {
     const storedToken = localStorage.getItem("token");
@@ -18,6 +20,7 @@ const App = () => {
       setIsAuthenticated(true);
       const decodedToken = jwtDecode(storedToken);
       setUserID(decodedToken.id);
+      setUsername(decodedToken.username);
     }
   }, []);
 
@@ -46,6 +49,9 @@ const App = () => {
             <li>
               <Link to="/createpost">Create Post</Link>
             </li>
+            <li>
+              <Link to={`/profile/${username}`}>Profile</Link>
+            </li>
             </div>
           ) : (
           <div>
@@ -65,6 +71,7 @@ const App = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/createpost" element={<PostForm />} />
+        <Route path="/profile/:username" element={<Profile />} />
       </Routes>
     </Router>
     </UserContext.Provider>

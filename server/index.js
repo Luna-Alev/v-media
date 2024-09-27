@@ -126,11 +126,15 @@ app.post('/like', (req, res) => {
     });
 });
 
-app.get('/users', (req, res) => {
-    var sql = 'SELECT * FROM user';
-    db.query(sql, (err, results) => {
+app.get('/user/:username', (req, res) => {
+    var sql = 'SELECT first_name, last_name, email, birth_date, join_date FROM user WHERE username = ?';
+    db.query(sql, [req.params.username], (err, results) => {
         if (err) {
-            console.log('Error fetching users');
+            console.log('Error fetching user');
+            return;
+        } 
+        if (results.length === 0) {
+            res.json({ error: 'User not found' }).status(404);
             return;
         }
         res.json(results);

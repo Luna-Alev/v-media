@@ -47,11 +47,13 @@ const Register = () => {
             username: formData.username,
             password: formData.password,
             email: formData.email,
-            birthDate: formData.birthDate
+            birthDate: formData.birthDate,
+            recaptchaToken: recaptcha
         });
         setError('');
         navigate('/login');
         window.location.reload();
+        alert('Registration successful! Please check your email for verification.');
     } catch (error) {
         setError('Error registering user');
         console.error(error);

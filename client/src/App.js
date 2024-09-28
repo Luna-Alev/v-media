@@ -7,6 +7,7 @@ import Login from "./components/Login";
 import Profile from "./components/Profile";
 import PostForm from "./components/PostForm";
 import PostFeed from "./components/PostFeed";
+import VerifyEmail from "./components/VerifyEmail";
 import "./App.css";
 
 const App = () => {
@@ -72,6 +73,7 @@ const App = () => {
         <Route path="/register" element={<Register />} />
         <Route path="/createpost" element={<PostForm />} />
         <Route path="/profile/:username" element={<Profile />} />
+        <Route path="/verify-email" element={<VerifyEmail />} />
       </Routes>
     </Router>
     </UserContext.Provider>

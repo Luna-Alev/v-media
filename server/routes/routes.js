@@ -8,6 +8,7 @@ const userActionController = require('../controllers/userActionController');
 router.post('/register', userController.register);
 router.post('/login', userController.login);
 router.get('/user/:username', userController.getUser);
+router.get('/verify-email', userController.verifyEmail);
 
 router.post('/follow', userActionController.follow);
 router.post('/like', userActionController.like);

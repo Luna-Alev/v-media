@@ -18,7 +18,7 @@ const transporter = nodeMailer.createTransport({
     service: "gmail",
     auth: {
         user: 'vmedia.noreply@gmail.com',
-        pass: 'tssn kvrc tzub ryno'
+        pass: process.env.EMAIL_PASS
     },
     tls: {
         rejectUnauthorized: false

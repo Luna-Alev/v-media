@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Register.css';
+import ReCAPTCHA from "react-google-recaptcha";
 import axios from 'axios';
 
 const Register = () => {
@@ -13,6 +14,7 @@ const Register = () => {
     email: '',
     birthDate: ''
   });
+  const [recaptcha, setRecaptcha] = useState(null);
   const navigate = useNavigate();
   const [error, setError] = useState('');
   
@@ -21,11 +23,20 @@ const Register = () => {
     setFormData({ ...formData, [name]: value });
   };
 
+  const handleRecaptcha = (value) => {
+    setRecaptcha(value);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (formData.password !== formData.confirmPassword) {
       setError('Passwords do not match');
+      return;
+    }
+
+    if (!recaptcha) {
+      setError('Please verify you are not a robot');
       return;
     }
 
@@ -134,6 +145,13 @@ const Register = () => {
           onChange={handleInputChange}
           required
           className="form-input"
+        />
+      </div>
+
+      <div className="form-group">
+        <ReCAPTCHA
+          sitekey='6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI'
+          onChange={handleRecaptcha}
         />
       </div>
 

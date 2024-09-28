@@ -1,5 +1,6 @@
 import React, { useContext } from "react";
 import UserContext from "../UserContext";
+import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
 import axios from "axios";
 
 const Post = ({ post }) => {
@@ -21,7 +22,7 @@ const Post = ({ post }) => {
             <h3>{post.title}</h3>
             <p>{post.body}</p>
             <p>{post.date}</p>
-            <p>{post.username}</p>
+            <Link to={`/profile/${post.username}`}>{post.username}</Link>
             <form onSubmit={likeHandler}>
                 <button>
                     Like {post.likes}

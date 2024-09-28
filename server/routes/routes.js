@@ -9,6 +9,8 @@ router.post('/register', userController.register);
 router.post('/login', userController.login);
 router.get('/user/:username', userController.getUser);
 router.get('/verify-email', userController.verifyEmail);
+router.post('/request-reset-password', userController.requestResetPassword);
+router.post('/reset-password', userController.resetPassword);
 
 router.post('/follow', userActionController.follow);
 router.post('/like', userActionController.like);

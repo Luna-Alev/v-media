@@ -75,6 +75,8 @@ const Login = () => {
           />
         </div>
 
+        <a href="/request-reset-password">Forgot password?</a>
+
         <button type="submit" className="submit-button">Login</button>
       </form>
     </div>

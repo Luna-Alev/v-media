@@ -8,6 +8,8 @@ import Profile from "./components/Profile";
 import PostForm from "./components/PostForm";
 import PostFeed from "./components/PostFeed";
 import VerifyEmail from "./components/VerifyEmail";
+import RequestResetPassword from "./components/ResetPasswordRequest";
+import ResetPassword from "./components/ResetPassword";
 import "./App.css";
 
 const App = () => {
@@ -74,6 +76,8 @@ const App = () => {
         <Route path="/createpost" element={<PostForm />} />
         <Route path="/profile/:username" element={<Profile />} />
         <Route path="/verify-email" element={<VerifyEmail />} />
+        <Route path="/request-reset-password" element={<RequestResetPassword />} />
+        <Route path="/reset-password" element={<ResetPassword />} />
       </Routes>
     </Router>
     </UserContext.Provider>

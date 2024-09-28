@@ -52,7 +52,6 @@ const Register = () => {
         });
         setError('');
         navigate('/login');
-        window.location.reload();
         alert('Registration successful! Please check your email for verification.');
     } catch (error) {
         setError('Error registering user');

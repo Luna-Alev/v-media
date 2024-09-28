@@ -77,7 +77,6 @@ const register = async (req, res) => {
 
 const verifyEmail = async (req, res) => {
     const { token, email } = req.query;
-    console.log(token, email);
     var sql = 'SELECT * FROM user WHERE email = ? AND verification_token = ?';
     db.query(sql, [email, token], (err, result) => {
       if (err || result.length === 0) {
@@ -95,6 +94,67 @@ const verifyEmail = async (req, res) => {
         console.log('Email verified successfully');
         res.status(200).send({ message: 'Email verified successfully' });
       });
+    });
+};
+
+const requestResetPassword = async (req, res) => {
+    const { email } = req.body;
+    var sql = 'SELECT * FROM user WHERE email = ?';
+    db.query(sql, [email], async (err, result) => {
+        if (err || result.length === 0) {
+            console.log('Invalid email');
+            return res.status(400).send({ message: 'Invalid email' });
+        }
+
+        const resetToken = await generateVerificationToken();
+        const resetTokenExpiration = new Date(Date.now() + 3600000);
+
+        const updateSql = 'UPDATE user SET reset_token = ?, reset_token_expiry = ? WHERE email = ?';
+        db.query(updateSql, [resetToken, resetTokenExpiration, email], (err, result) => {
+            if (err) {
+                console.log('Error updating reset token');
+                return res.status(500).send({ message: 'Error updating reset token' });
+            }
+
+            const resetLink = `http://localhost:3000/reset-password?token=${resetToken}&email=${email}`;
+            const mailOptions = {
+                from: 'vmedia.noreply@gmail.com',
+                to: email,
+                subject: 'Reset your password',
+                html: `<p>Click <a href="${resetLink}">here</a> to reset your password.</p>`
+            };
+    
+            transporter.sendMail(mailOptions, (error, info) => {
+                if (error) {
+                    console.log('Error sending reset password email', error);
+                    return;
+                }
+                console.log('Reset password email sent');
+                res.status(200).send('Reset password email sent');
+            });
+        });
+    });
+};
+
+const resetPassword = async (req, res) => {
+    const { token, email, newPassword } = req.body;
+
+    const sql = 'SELECT * FROM user WHERE email = ? AND reset_token = ? AND reset_token_expiry > ?';
+    db.query(sql, [email, token, new Date()], async (err, results) => {
+        if (err || results.length === 0) {
+            return res.status(400).send('Invalid or expired token');
+        }
+
+        const hashedPassword = await hashPassword(newPassword);
+
+        const updateSql = 'UPDATE user SET password = ?, reset_token = NULL, reset_token_expiry = NULL WHERE email = ?';
+        db.query(updateSql, [hashedPassword, email], (updateErr) => {
+            if (updateErr) {
+                return res.status(500).send('Error resetting password');
+            }
+
+            res.status(200).send('Password reset successfully');
+        });
     });
 };
 
@@ -141,6 +201,8 @@ const getUser = async (req, res) => {
 module.exports = {
     register,
     verifyEmail,
+    requestResetPassword,
+    resetPassword,
     login,
     getUser
 };

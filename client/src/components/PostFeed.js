@@ -16,6 +16,11 @@ const PostFeed = () => {
         };
         fetchPosts();
     }, []);
+
+    if (!posts) {
+        return <div>Loading...</div>;
+    }
+
     return (
         <div>
             <h2>Posts</h2>

@@ -8,7 +8,7 @@ const Post = ({ post }) => {
 
     const likeHandler = async () => {
         try {
-            await axios.post(`http://localhost:3001/like`, {
+            await axios.post(`/api/like`, {
                 postID: post.ID
             },
         {

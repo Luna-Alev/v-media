@@ -8,7 +8,7 @@ const RequestResetPassword = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:3001/request-reset-password', { 
+      const response = await axios.post('/api/request-reset-password', { 
         username
       });
       setMessage('Password reset email sent.');

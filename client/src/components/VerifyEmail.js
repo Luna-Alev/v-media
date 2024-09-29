@@ -14,7 +14,7 @@ const VerifyEmail = () => {
 
     const verifyEmail = async () => {
       try {
-        const response = await axios.get(`http://localhost:3001/verify-email?token=${token}&email=${email}`);
+        const response = await axios.get(`/api/verify-email?token=${token}&email=${email}`);
         setMessage(response.data.message);
       } catch (error) {
         setMessage('Email verification failed');

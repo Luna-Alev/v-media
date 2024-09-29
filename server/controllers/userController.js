@@ -67,7 +67,7 @@ const register = async (req, res) => {
             res.send('User registered').status(200);
         });
 
-        const verificationLink = `http://localhost:3000/verify-email?token=${verificationToken}&email=${email}`;
+        const verificationLink = `http://lugeja.eu/verify-email?token=${verificationToken}&email=${email}`;
         const mailOptions = {
             from: 'vmedia.noreply@gmail.com',
             to: email,
@@ -134,7 +134,7 @@ const requestResetPassword = async (req, res) => {
                 return res.status(500).send({ message: 'Error updating reset token' });
             }
 
-            const resetLink = `http://localhost:3000/reset-password?token=${resetToken}&username=${username}`;
+            const resetLink = `http://lugeja.eu/reset-password?token=${resetToken}&username=${username}`;
             const mailOptions = {
                 from: 'vmedia.noreply@gmail.com',
                 to: email,

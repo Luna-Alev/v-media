@@ -12,7 +12,7 @@ const Profile = () => {
     useEffect(() => {
         const fetchUser = async () => {
             try {
-                const response = await axios.get(`http://localhost:3001/user/${username}`);
+                const response = await axios.get(`/api/user/${username}`);
                 setUser(response.data[0]);
             } catch (error) {
                 console.error(error);
@@ -24,7 +24,7 @@ const Profile = () => {
     useEffect(() => {
         const fetchPosts = async () => {
             try {
-                const response = await axios.get(`http://localhost:3001/post/${username}`);
+                const response = await axios.get(`/api/post/${username}`);
                 setUserPosts(response.data);
             } catch (error) {
                 console.error(error);
@@ -35,7 +35,7 @@ const Profile = () => {
 
     const followHandler = async () => {
         try {
-            await axios.post(`http://localhost:3001/follow`, {
+            await axios.post(`/api/follow`, {
                 follower: userID,
                 followee: user.username
             });

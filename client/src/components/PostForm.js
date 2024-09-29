@@ -23,7 +23,7 @@ const PostForm = () => {
     e.preventDefault();
     
     try {
-      axios.post('http://localhost:3001/new_post', {
+      axios.post('/api/new_post', {
         title: formData.title,
         body: formData.body,
         theme: formData.theme,

@@ -9,7 +9,6 @@ const ResetPassword = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  // Extract token and email from URL query params
   const queryParams = new URLSearchParams(location.search);
   const token = queryParams.get('token');
   const username = queryParams.get('username');
@@ -29,7 +28,7 @@ const ResetPassword = () => {
         newPassword
       });
       setMessage('Password reset successful! Redirecting to login...');
-      setTimeout(() => navigate('/login'), 3000); // Redirect to login after 3 seconds
+      setTimeout(() => navigate('/login'), 3000);
     } catch (error) {
       console.error(error);
       setMessage('Error resetting password');

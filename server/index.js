@@ -9,8 +9,9 @@ app.use(express.json());
 
 app.use('/', routes);
 
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'build', 'index.html'));
+app.use(express.static('/var/www/lugeja'));
+app.get('/*', (req, res) => {
+  res.sendFile(path.join('/var/www/lugeja', 'index.html'));
 });
 
 app.listen(3001, () => {

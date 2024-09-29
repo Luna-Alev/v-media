@@ -8,7 +8,7 @@ const PostFeed = () => {
     useEffect(() => {
         const fetchPosts = async () => {
             try {
-                const response = await axios.get("http://localhost:3001/posts");
+                const response = await axios.get("http://localhost:3001/post");
                 setPosts(response.data);
             } catch (error) {
                 console.error(error);

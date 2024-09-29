@@ -175,6 +175,7 @@ const login = async (req, res) => {
                 const token = jwt.sign({ username: req.body.username, id: results[0].ID }, JWT_SECRET, {
                     expiresIn: '1h'
                 });
+
                 res.json({ token });
             } else {
                 res.json({ error: 'Invalid username or password' });

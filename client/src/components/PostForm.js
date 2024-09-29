@@ -30,7 +30,11 @@ const PostForm = () => {
         title: formData.title,
         body: formData.body,
         theme: formData.theme,
-        author: userID
+      },
+      {
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
+        }
       });
       
       // Reset the form data

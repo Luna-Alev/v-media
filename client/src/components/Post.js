@@ -1,17 +1,19 @@
-import React, { useContext } from "react";
-import UserContext from "../UserContext";
+import React from "react";
 import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
 import axios from "axios";
 
 const Post = ({ post }) => {
-    const { userID } = useContext(UserContext);
 
     const likeHandler = async () => {
         try {
             await axios.post(`http://localhost:3001/like`, {
-                postID: post.ID,
-                userID: userID,
-            });
+                postID: post.ID
+            },
+        {
+            headers: {
+                "Authorization": `Bearer ${localStorage.getItem("token")}`
+            }
+        });
         } catch (error) {
             console.error(error);
         }

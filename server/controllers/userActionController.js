@@ -31,15 +31,16 @@ const follow = async (req, res) => {
 };
 
 const like = async (req, res) => {
+    const userId = req.userId;
     var sql = 'SELECT * FROM likes WHERE post_id = ? AND user_id = ?';
-    db.query(sql, [req.body.postID, req.body.userID], (err, results) => {
+    db.query(sql, [req.body.postID, userId], (err, results) => {
         if (err) {
             console.log('Error checking if post is liked');
             return;
         }
         if (results.length > 0) {
             var sql = 'DELETE FROM likes WHERE post_id = ? AND user_id = ?';
-            db.query(sql, [req.body.postID, req.body.userID], (err, result) => {
+            db.query(sql, [req.body.postID, userId], (err, result) => {
                 if (err) {
                     console.log('Error unliking post');
                     return;
@@ -49,7 +50,7 @@ const like = async (req, res) => {
         }
         else {
             var sql = 'INSERT INTO likes (post_id, user_id) VALUES (?, ?)';
-            db.query(sql, [req.body.postID, req.body.userID], (err, result) => {
+            db.query(sql, [req.body.postID, userId], (err, result) => {
                 if (err) {
                     console.log('Error liking post');
                     return;

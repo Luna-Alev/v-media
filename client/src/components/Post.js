@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useContext } from "react";
+import UserContext from "../UserContext";
 import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
 import axios from "axios";
 
 const Post = ({ post }) => {
+    const { userID } = useContext(UserContext);
 
     const likeHandler = async () => {
         try {

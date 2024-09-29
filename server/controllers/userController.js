@@ -6,6 +6,7 @@ const axios = require('axios');
 const crypto = require('crypto');
 const nodeMailer = require('nodemailer');
 const e = require('express');
+const { error } = require('console');
 require('dotenv').config();
 
 const JWT_SECRET = process.env.JWT_SECRET;
@@ -31,6 +32,21 @@ const register = async (req, res) => {
     const recaptchaSecret = process.env.RECAPTCHA_SECRET;
     const recaptchaUrl = `https://www.google.com/recaptcha/api/siteverify?secret=${recaptchaSecret}&response=${recaptchaToken}`;
 
+    var sql = 'SELECT * FROM user WHERE username = ?';
+    db.query(sql, [username], (err, result) => {
+        if (err) {
+            console.log('Error checking if username exists');
+            return res.status(500).json({ error: 'Error checking if username exists' });
+        }
+        if (result.length > 0) {
+            console.log('Username already exists');
+            return res.status(400).json({ error: 'Username already exists' });
+        }
+
+        registerUser();
+    });
+
+    const registerUser = async () => {
     try {
         const response = await axios.post(recaptchaUrl);
         const { success } = response.data;
@@ -72,6 +88,7 @@ const register = async (req, res) => {
         console.error('Error during reCAPTCHA validation', error);
         res.status(500).send({ message: 'reCAPTCHA validation failed' });
     }
+}
 
 };
 
@@ -98,25 +115,26 @@ const verifyEmail = async (req, res) => {
 };
 
 const requestResetPassword = async (req, res) => {
-    const { email } = req.body;
-    var sql = 'SELECT * FROM user WHERE email = ?';
-    db.query(sql, [email], async (err, result) => {
+    const { username } = req.body;
+    var sql = 'SELECT email FROM user WHERE username = ?';
+    db.query(sql, [username], async (err, result) => {
         if (err || result.length === 0) {
-            console.log('Invalid email');
-            return res.status(400).send({ message: 'Invalid email' });
+            console.log('Invalid username');
+            return res.status(400).send({ message: 'Invalid username' });
         }
 
+        const email = result[0].email;
         const resetToken = await generateVerificationToken();
         const resetTokenExpiration = new Date(Date.now() + 3600000);
 
-        const updateSql = 'UPDATE user SET reset_token = ?, reset_token_expiry = ? WHERE email = ?';
-        db.query(updateSql, [resetToken, resetTokenExpiration, email], (err, result) => {
+        const updateSql = 'UPDATE user SET reset_token = ?, reset_token_expiry = ? WHERE username = ?';
+        db.query(updateSql, [resetToken, resetTokenExpiration, username], (err, result) => {
             if (err) {
                 console.log('Error updating reset token');
                 return res.status(500).send({ message: 'Error updating reset token' });
             }
 
-            const resetLink = `http://localhost:3000/reset-password?token=${resetToken}&email=${email}`;
+            const resetLink = `http://localhost:3000/reset-password?token=${resetToken}&username=${username}`;
             const mailOptions = {
                 from: 'vmedia.noreply@gmail.com',
                 to: email,
@@ -137,18 +155,18 @@ const requestResetPassword = async (req, res) => {
 };
 
 const resetPassword = async (req, res) => {
-    const { token, email, newPassword } = req.body;
+    const { token, username, newPassword } = req.body;
 
-    const sql = 'SELECT * FROM user WHERE email = ? AND reset_token = ? AND reset_token_expiry > ?';
-    db.query(sql, [email, token, new Date()], async (err, results) => {
+    const sql = 'SELECT * FROM user WHERE username = ? AND reset_token = ? AND reset_token_expiry > ?';
+    db.query(sql, [username, token, new Date()], async (err, results) => {
         if (err || results.length === 0) {
             return res.status(400).send('Invalid or expired token');
         }
 
         const hashedPassword = await hashPassword(newPassword);
 
-        const updateSql = 'UPDATE user SET password = ?, reset_token = NULL, reset_token_expiry = NULL WHERE email = ?';
-        db.query(updateSql, [hashedPassword, email], (updateErr) => {
+        const updateSql = 'UPDATE user SET password = ?, reset_token = NULL, reset_token_expiry = NULL WHERE username = ?';
+        db.query(updateSql, [hashedPassword, username], (updateErr) => {
             if (updateErr) {
                 return res.status(500).send('Error resetting password');
             }

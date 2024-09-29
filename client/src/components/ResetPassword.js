@@ -12,7 +12,7 @@ const ResetPassword = () => {
   // Extract token and email from URL query params
   const queryParams = new URLSearchParams(location.search);
   const token = queryParams.get('token');
-  const email = queryParams.get('email');
+  const username = queryParams.get('username');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -25,7 +25,7 @@ const ResetPassword = () => {
     try {
       await axios.post('http://localhost:3001/reset-password', {
         token,
-        email,
+        username,
         newPassword
       });
       setMessage('Password reset successful! Redirecting to login...');

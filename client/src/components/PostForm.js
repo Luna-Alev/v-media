@@ -1,12 +1,9 @@
-import React, { useContext, useState } from 'react';
-import UserContext from '../UserContext';
-import { useNavigate } from 'react-router-dom';
+import React, { useState } from 'react';
 import axios from 'axios';
 import './PostForm.css';
 
 const PostForm = () => {
   const themes = ['Technology', 'Health', 'Education', 'Finance', 'Lifestyle', 'Gaming'];
-  const {userID} = useContext(UserContext);
 
   const [formData, setFormData] = useState({
     title: '',
@@ -33,7 +30,7 @@ const PostForm = () => {
       },
       {
         headers: {
-          'Authorization': `Bearer ${localStorage.getItem('token')}`
+          'Authorization' : `Bearer ${localStorage.getItem('token')}`
         }
       });
       

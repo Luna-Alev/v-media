@@ -2,14 +2,14 @@ import React, { useState } from 'react';
 import axios from 'axios';
 
 const RequestResetPassword = () => {
-  const [email, setEmail] = useState('');
+  const [username, setUsername] = useState('');
   const [message, setMessage] = useState('');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       const response = await axios.post('http://localhost:3001/request-reset-password', { 
-        email 
+        username
       });
       setMessage('Password reset email sent.');
     } catch (error) {
@@ -23,11 +23,11 @@ const RequestResetPassword = () => {
       <h2>Reset Password</h2>
       <form onSubmit={handleSubmit}>
         <div>
-          <label>Email:</label>
+          <label>Username:</label>
           <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            type="username"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
             required
           />
         </div>

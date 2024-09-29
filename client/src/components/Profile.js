@@ -31,7 +31,7 @@ const Profile = () => {
             }
         };
         fetchPosts();
-    }, [user]);
+    }, [user, username]);
 
     const followHandler = async () => {
         try {

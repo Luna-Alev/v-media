@@ -41,7 +41,7 @@ const Register = () => {
     }
 
     try {
-        await axios.post('http://localhost:3001/register', {
+        const response = await axios.post('http://localhost:3001/register', {
             firstName: formData.firstName,
             lastName: formData.lastName,
             username: formData.username,
@@ -50,12 +50,16 @@ const Register = () => {
             birthDate: formData.birthDate,
             recaptchaToken: recaptcha
         });
+
         setError('');
         navigate('/login');
         alert('Registration successful! Please check your email for verification.');
     } catch (error) {
-        setError('Error registering user');
-        console.error(error);
+        if (error.response.data.error) {
+            setError(error.response.data.error);
+        } else {
+            setError('Error registering');
+        }
     }
   };
 

@@ -116,6 +116,7 @@ const verifyEmail = async (req, res) => {
 
 const requestResetPassword = async (req, res) => {
     const { username } = req.body;
+    console.log(username);
     var sql = 'SELECT email FROM user WHERE username = ?';
     db.query(sql, [username], async (err, result) => {
         if (err || result.length === 0) {
@@ -217,11 +218,60 @@ const getUser = async (req, res) => {
     });
 };
 
+const authProfile = async (req, res) => {
+    const userId = req.userId;
+    var sql = 'SELECT username FROM user WHERE ID = ?';
+    db.query(sql, [userId], (err, results) => {
+        if (err) {
+            console.log('Error fetching user');
+            return;
+        }
+        if (results.length === 0) {
+            res.json({ error: 'User not found' }).status(404);
+            return;
+        }
+        res.json(results);
+    });
+};
+
+const updatePassword = async (req, res) => {
+    const userId = req.userId;
+    const { oldPassword, newPassword } = req.body;
+    var sql = 'SELECT password FROM user WHERE ID = ?';
+    db.query(sql, [userId], async (err, results) => {
+        if (err) {
+            console.log('Error updating password 1');
+            return;
+        }
+        bcrypt.compare(oldPassword, results[0].password, async (err, result) => {
+            if (err) {
+                console.log('Error updating password 2');
+                return;
+            }
+            if (result) {
+                const hashedPassword = await hashPassword(newPassword);
+                var updateSql = 'UPDATE user SET password = ? WHERE ID = ?';
+                db.query(updateSql, [hashedPassword, userId], (err, results) => {
+                    if (err) {
+                        console.log('Error updating password 3');
+                        return;
+                    }
+                    res.send('Password updated').status(200);
+                });
+            } else {
+                res.send('Incorrect password').status(400);
+            }
+        });
+    });
+};
+
 module.exports = {
     register,
     verifyEmail,
     requestResetPassword,
     resetPassword,
     login,
-    getUser
+    getUser,
+    authProfile,
+    updatePassword
 };

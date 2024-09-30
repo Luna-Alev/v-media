@@ -32,7 +32,7 @@ const follow = async (req, res) => {
 
 const like = async (req, res) => {
     const userId = req.userId;
-    var sql = 'SELECT * FROM likes WHERE post_id = ? AND user_id = ?';
+    const sql = 'SELECT * FROM likes WHERE post_id = ? AND user_id = ?';
     db.query(sql, [req.body.postID, userId], (err, results) => {
         if (err) {
             console.log('Error checking if post is liked');

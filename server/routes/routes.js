@@ -12,7 +12,9 @@ router.post('/login', userController.login);
 router.get('/verify-email', userController.verifyEmail);
 router.post('/request-reset-password', userController.requestResetPassword);
 router.post('/reset-password', userController.resetPassword);
+router.post('/update-password', verifyToken, userController.updatePassword);
 
+router.get('/auth-profile', verifyToken, userController.authProfile);
 router.get('/user/:username', userController.getUser);
 
 router.post('/follow', userActionController.follow);

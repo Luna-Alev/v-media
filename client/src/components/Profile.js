@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useContext } from "react";
+import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
 import UserContext from "../UserContext";
 import axios from "axios";
 import { useParams } from "react-router-dom";
@@ -9,11 +10,22 @@ const Profile = () => {
     const { userID } = useContext(UserContext);
     const [user, setUser] = useState(null);
     const [userPosts, setUserPosts] = useState([]);
+    const [isCurrentUser, setIsCurrentUser] = useState(false);
     useEffect(() => {
         const fetchUser = async () => {
             try {
                 const response = await axios.get(`/api/user/${username}`);
                 setUser(response.data[0]);
+                const currentUser = await axios.get(`/api/auth-profile`,
+                    {
+                        headers: {
+                            'Authorization': `Bearer ${localStorage.getItem('token')}`
+                        }
+                    }
+                );
+                if (currentUser.data[0].username === username) {
+                    setIsCurrentUser(true);
+                }
             } catch (error) {
                 console.error(error);
             }
@@ -56,6 +68,7 @@ const Profile = () => {
                     <p>{user.email}</p>
                     <p>{user.birth_date}</p>
                     <p>{user.join_date}</p>
+                    {isCurrentUser && <Link to="/edit-profile">Edit Profile</Link>}
                 </div>
                 <form onSubmit={followHandler}>
                     <button>

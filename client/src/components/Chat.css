@@ -1,0 +1,79 @@
+/* Chat container */
+.chat-container {
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    height: 500px;
+    background-color: #f9f9f9;
+  }
+  
+  /* Messages container (the chat window) */
+  .messages-container {
+    flex: 1;
+    padding: 10px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  /* Individual message bubbles */
+  .message-bubble {
+    max-width: 60%;
+    padding: 10px;
+    border-radius: 10px;
+    font-size: 16px;
+    line-height: 1.5;
+    position: relative;
+  }
+  
+  /* Right-aligned bubbles for the current user */
+  .message-bubble.right {
+    align-self: flex-end;
+    background-color: #0078fe;
+    color: white;
+    border-top-right-radius: 0;
+  }
+  
+  /* Left-aligned bubbles for the other user */
+  .message-bubble.left {
+    align-self: flex-start;
+    background-color: #e5e5ea;
+    color: black;
+    border-top-left-radius: 0;
+  }
+  
+  /* Input container */
+  .input-container {
+    display: flex;
+    border-top: 1px solid #ccc;
+    padding: 10px;
+    background-color: #fff;
+  }
+  
+  .input-container input {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    font-size: 16px;
+  }
+  
+  .input-container button {
+    margin-left: 10px;
+    padding: 10px 20px;
+    background-color: #0078fe;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+  }
+  
+  .input-container button:hover {
+    background-color: #005bb5;
+  }
+  

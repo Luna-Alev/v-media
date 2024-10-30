@@ -19,6 +19,10 @@ const EditProfile = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        if (passwordFormData.newPassword !== passwordFormData.confirmPassword) {
+            alert('Passwords do not match');
+            return
+        }
         try {
             axios.post('/api/update-password', {
                 oldPassword: passwordFormData.currentPassword,

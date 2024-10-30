@@ -11,6 +11,7 @@ import VerifyEmail from "./components/VerifyEmail";
 import RequestResetPassword from "./components/ResetPasswordRequest";
 import ResetPassword from "./components/ResetPassword";
 import EditProfile from "./components/EditProfile";
+import Chat from "./components/Chat";
 import "./App.css";
 
 const App = () => {
@@ -80,6 +81,7 @@ const App = () => {
         <Route path="/request-reset-password" element={<RequestResetPassword />} />
         <Route path="/reset-password" element={<ResetPassword />} />
         <Route path="/edit-profile" element={<EditProfile />} />
+        <Route path="/chat" element={<Chat />} />
       </Routes>
     </Router>
     </UserContext.Provider>

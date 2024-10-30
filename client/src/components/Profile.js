@@ -69,6 +69,7 @@ const Profile = () => {
                     <p>{user.birth_date}</p>
                     <p>{user.join_date}</p>
                     {isCurrentUser && <Link to="/edit-profile">Edit Profile</Link>}
+                    {!isCurrentUser && <Link to={`/chat/${user.username}`}>Message</Link>}
                 </div>
                 <form onSubmit={followHandler}>
                     <button>

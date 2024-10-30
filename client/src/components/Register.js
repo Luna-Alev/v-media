@@ -5,6 +5,8 @@ import ReCAPTCHA from "react-google-recaptcha";
 import axios from 'axios';
 
 const Register = () => {
+  const theGenders = ['No', 'Yes', 'Maybe', 'Somedays', 'Never', 'Banana', 'Depressed', 'Cheese', 'Furry', 'Youtuber'];
+
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -12,7 +14,8 @@ const Register = () => {
     password: '',
     confirmPassword: '',
     email: '',
-    birthDate: ''
+    birthDate: '',
+    gender: theGenders[0]
   });
   const [recaptcha, setRecaptcha] = useState(null);
   const navigate = useNavigate();
@@ -155,7 +158,7 @@ const Register = () => {
 
       <div className="form-group">
         <ReCAPTCHA
-          sitekey='6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI'
+          sitekey='6Lfsx1EqAAAAAM2Vpx-jLf6lti3pvQuKsYKCNlkv'
           onChange={handleRecaptcha}
         />
       </div>

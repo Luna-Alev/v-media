@@ -35,7 +35,7 @@ const App = () => {
   };
 
   return (
-    <UserContext.Provider value={{ isAuthenticated, setIsAuthenticated, userID, setUserID}}>
+    <UserContext.Provider value={{ isAuthenticated, setIsAuthenticated, userID, setUserID, username}}>
     <Router>
       <nav>
         <ul>
@@ -81,7 +81,7 @@ const App = () => {
         <Route path="/request-reset-password" element={<RequestResetPassword />} />
         <Route path="/reset-password" element={<ResetPassword />} />
         <Route path="/edit-profile" element={<EditProfile />} />
-        <Route path="/chat" element={<Chat />} />
+        <Route path="/chat/:recipient" element={<Chat />} />
       </Routes>
     </Router>
     </UserContext.Provider>

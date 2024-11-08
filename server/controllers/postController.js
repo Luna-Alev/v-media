@@ -16,7 +16,17 @@ const newPost = async (req, res) => {
 };
 
 const getPosts = async (req, res) => {
-    var sql = 'SELECT article.ID, article.title, article.body, article.date, user.username, COUNT(likes.post_id) AS likes FROM article INNER JOIN user ON article.author_id = user.ID LEFT JOIN likes ON article.ID = likes.post_id GROUP BY article.ID ORDER BY article.date DESC LIMIT 10;';
+    switch (req.query.sort) {
+        case 'popular':
+            var sql = 'SELECT article.ID, article.title, article.body, article.date, user.username, COUNT(likes.post_id) AS likes FROM article INNER JOIN user ON article.author_id = user.ID LEFT JOIN likes ON article.ID = likes.post_id GROUP BY article.ID ORDER BY likes DESC LIMIT 10;';
+            break;
+        case 'oldest':
+            var sql = 'SELECT article.ID, article.title, article.body, article.date, user.username, COUNT(likes.post_id) AS likes FROM article INNER JOIN user ON article.author_id = user.ID LEFT JOIN likes ON article.ID = likes.post_id GROUP BY article.ID ORDER BY article.date ASC LIMIT 10;';
+            break;
+        case 'newest':
+            var sql = 'SELECT article.ID, article.title, article.body, article.date, user.username, COUNT(likes.post_id) AS likes FROM article INNER JOIN user ON article.author_id = user.ID LEFT JOIN likes ON article.ID = likes.post_id GROUP BY article.ID ORDER BY article.date DESC LIMIT 10;';
+            break;
+    }
     db.query(sql, async (err, results) => {
         if (err) {
             console.log('Error fetching posts');

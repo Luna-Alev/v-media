@@ -16,15 +16,18 @@ const newPost = async (req, res) => {
 };
 
 const getPosts = async (req, res) => {
+    const { sort, page } = req.query;
+    const limit = 10;
+    const offset = (page - 1) * limit;
     switch (req.query.sort) {
         case 'popular':
-            var sql = 'SELECT article.ID, article.title, article.body, article.date, user.username, COUNT(likes.post_id) AS likes FROM article INNER JOIN user ON article.author_id = user.ID LEFT JOIN likes ON article.ID = likes.post_id GROUP BY article.ID ORDER BY likes DESC LIMIT 10;';
+            var sql = `SELECT article.ID, article.title, article.body, article.date, user.username, COUNT(likes.post_id) AS likes FROM article INNER JOIN user ON article.author_id = user.ID LEFT JOIN likes ON article.ID = likes.post_id GROUP BY article.ID ORDER BY likes DESC LIMIT ${limit} OFFSET ${offset};`;
             break;
         case 'oldest':
-            var sql = 'SELECT article.ID, article.title, article.body, article.date, user.username, COUNT(likes.post_id) AS likes FROM article INNER JOIN user ON article.author_id = user.ID LEFT JOIN likes ON article.ID = likes.post_id GROUP BY article.ID ORDER BY article.date ASC LIMIT 10;';
+            var sql = `SELECT article.ID, article.title, article.body, article.date, user.username, COUNT(likes.post_id) AS likes FROM article INNER JOIN user ON article.author_id = user.ID LEFT JOIN likes ON article.ID = likes.post_id GROUP BY article.ID ORDER BY article.date ASC LIMIT ${limit} OFFSET ${offset};`;
             break;
         case 'newest':
-            var sql = 'SELECT article.ID, article.title, article.body, article.date, user.username, COUNT(likes.post_id) AS likes FROM article INNER JOIN user ON article.author_id = user.ID LEFT JOIN likes ON article.ID = likes.post_id GROUP BY article.ID ORDER BY article.date DESC LIMIT 10;';
+            var sql = `SELECT article.ID, article.title, article.body, article.date, user.username, COUNT(likes.post_id) AS likes FROM article INNER JOIN user ON article.author_id = user.ID LEFT JOIN likes ON article.ID = likes.post_id GROUP BY article.ID ORDER BY article.date DESC LIMIT ${limit} OFFSET ${offset};`;
             break;
     }
     db.query(sql, async (err, results) => {

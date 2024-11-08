@@ -1,12 +1,18 @@
-import React, { useContext } from "react";
-import UserContext from "../UserContext";
+import React, { useContext, useState } from "react";
 import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
 import axios from "axios";
 
 const Post = ({ post }) => {
-    const { userID } = useContext(UserContext);
+    const [ likes, setLikes ] = useState(post.likes);
+    const [ liked, setLiked ] = useState(false);
 
-    const likeHandler = async () => {
+    const likeHandler = async (event) => {
+        event.preventDefault();
+
+        const newLikes = liked ? likes - 1 : likes + 1;
+        setLikes(newLikes);
+        setLiked(!liked);
+
         try {
             await axios.post(`/api/like`, {
                 postID: post.ID
@@ -27,11 +33,17 @@ const Post = ({ post }) => {
             <p>{post.body}</p>
             <p>{post.date}</p>
             <Link to={`/profile/${post.username}`}>{post.username}</Link>
-            <form onSubmit={likeHandler}>
-                <button>
-                    Like {post.likes}
-                </button>
-            </form>
+            <div>
+            <button 
+                onClick={likeHandler} 
+                style={{
+                    backgroundColor: liked ? 'blue' : 'gray', // Change color based on like status
+                    color: 'white',
+                }}
+            >
+                {liked ? "Unlike" : "Like"} {likes}
+            </button>
+            </div>
         </div>
     );
 };

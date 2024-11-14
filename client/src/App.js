@@ -12,6 +12,7 @@ import RequestResetPassword from "./components/ResetPasswordRequest";
 import ResetPassword from "./components/ResetPassword";
 import EditProfile from "./components/EditProfile";
 import Chat from "./components/Chat";
+import Navbar from "./components/Navbar";
 import "./App.css";
 
 const App = () => {
@@ -37,39 +38,7 @@ const App = () => {
   return (
     <UserContext.Provider value={{ isAuthenticated, setIsAuthenticated, userID, setUserID, username}}>
     <Router>
-      <nav>
-        <ul>
-          <li>
-            <Link to="/">Home</Link>
-          </li>
-
-          {isAuthenticated ? (
-            <div>
-            <li>
-              <button
-                onClick={handleLogout}>
-                Logout
-              </button>
-            </li>
-            <li>
-              <Link to="/createpost">Create Post</Link>
-            </li>
-            <li>
-              <Link to={`/profile/${username}`}>Profile</Link>
-            </li>
-            </div>
-          ) : (
-          <div>
-          <li>
-            <Link to="/login">Login</Link>
-          </li>
-          <li>
-            <Link to="/register">Register</Link>
-          </li>
-          </div>
-          )}
-        </ul>
-      </nav>
+      <Navbar/>
 
       <Routes>
         <Route path="/" element={<PostFeed />} />

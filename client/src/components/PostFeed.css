@@ -1,0 +1,60 @@
+/* Main container for the PostFeed */
+.post-feed {
+    max-width: 700px;
+    margin: 20px auto;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-family: Arial, sans-serif;
+}
+
+/* Header styling for the PostFeed title */
+.post-feed h2 {
+    font-size: 2rem;
+    color: #333;
+    margin-bottom: 20px;
+    text-align: center;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 10px;
+}
+
+/* Container for the sorting form */
+.post-feed form {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    margin-bottom: 20px;
+}
+
+/* Label styling for the sort option */
+.post-feed form label {
+    font-size: 1rem;
+    color: #555;
+    margin-right: 10px;
+}
+
+/* Sort dropdown styling */
+.post-feed form select {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: border-color 0.2s;
+}
+
+.post-feed form select:focus {
+    outline: none;
+    border-color: #0073e6;
+}
+
+/* Loading and error message styling */
+.post-feed p {
+    text-align: center;
+    color: #666;
+    font-size: 1rem;
+}
+
+.post-feed p.error {
+    color: #d9534f; /* Error message color */
+}

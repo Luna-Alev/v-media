@@ -1,0 +1,99 @@
+/* Container for the entire post */
+.post {
+    background-color: #1f1f1f;
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 20px;
+    border: 1px solid #000000;
+    border-radius: 8px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+    font-family: Arial, sans-serif;
+    position: relative;
+}
+
+/* Center the title */
+.post h3 {
+    text-align: center;
+    margin-bottom: 5px;
+    font-size: 1.5rem;
+    color: #dcccdb;
+}
+
+/* Left-align the username, directly below title */
+.userlink {
+    display: block;
+    text-align: left;
+    margin-bottom: 15px;
+    color: #8a8a8a;
+    font-weight: bold;
+    text-decoration: none;
+    font-size: small;
+}
+
+.userlink:hover {
+    text-decoration: underline;
+    color: #e1e1e1;
+}
+
+/* Body text styling */
+.post p {
+    margin: 10px 0;
+    color: #ffffff;
+    line-height: 1.6;
+}
+
+/* Date styling, below content */
+.post p:last-of-type {
+    font-size: 0.9rem;
+    color: #888;
+    text-align: left;
+}
+
+/* Like button container on the right */
+.post .like-container {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 80px;
+    height: 100px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    border-left: 1px solid #ddd;
+    padding-left: 10px;
+}
+
+/* Like button styling */
+.post button {
+    background-color: gray;
+    color: white;
+    font-size: 0.9rem;
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 100%;
+    text-align: center;
+    transition: background-color 0.3s;
+}
+
+.post button.liked {
+    background-color: rgb(28, 18, 22);
+    border: 1px solid #8a8a8a;
+}
+
+.post button:hover {
+    opacity: 0.9;
+}
+
+.fire {
+    animation: burn 1.5s linear infinite alternate;
+  }
+
+@keyframes burn {
+    from { box-shadow: -.1em 0 .3em #fefcc9, .1em -.1em .3em #feec85, -.2em -.2em .4em #ffae34, .2em -.3em .3em #ec760c, -.2em -.4em .4em #cd4606, .1em -.5em .7em #973716, .1em -.7em .7em #451b0e; }
+    45%  { box-shadow: .1em -.2em .5em #fefcc9, .15em 0 .4em #feec85, -.1em -.25em .5em #ffae34, .15em -.45em .5em #ec760c, -.1em -.5em .6em #cd4606, 0 -.8em .6em #973716, .2em -1em .8em #451b0e; }
+    70%  { box-shadow: -.1em 0 .3em #fefcc9, .1em -.1em .3em #feec85, -.2em -.2em .6em #ffae34, .2em -.3em .4em #ec760c, -.2em -.4em .7em #cd4606, .1em -.5em .7em #973716, .1em -.7em .9em #451b0e; }
+    to   { box-shadow: -.1em -.2em .6em #fefcc9, -.15em 0 .6em #feec85, .1em -.25em .6em #ffae34, -.15em -.45em .5em #ec760c, .1em -.5em .6em #cd4606, 0 -.8em .6em #973716, -.2em -1em .8em #451b0e; }
+  }
